@@ -9,3 +9,17 @@ html, body{
 h1{
     margin-top: 0;
 }
+
+
+.container{
+    margin: 2% auto;
+    height: 75vh;
+    aspect-ratio: 1/1;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.square{
+    background-color: white;
+    outline: 1px solid black;
+}

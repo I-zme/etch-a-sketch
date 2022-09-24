@@ -14,10 +14,10 @@ function createSquares(numberOfSquares){
 }
 
 createSquares(16);
+const squares = document.querySelectorAll('.square');
 
 
 window.addEventListener('resize',()=>{
-    const squares = document.querySelectorAll('.square');
 
     let newSquareSide = `${Math.floor(container.getBoundingClientRect()['width']/Math.sqrt(squares.length))}px`;
     squares.forEach(square=>{
@@ -25,3 +25,35 @@ window.addEventListener('resize',()=>{
         square.style.height = newSquareSide;
     })
 });
+
+
+// for darkening
+squares.forEach((square)=>{
+    square.addEventListener('mouseenter', ()=>{
+        if(container.classList.contains('randomColor')){
+            square.style.backgroundColor = randomSquareColor();
+        }
+        else if(container.classList.contains('darkenColor')){
+            square.style.backgroundColor = darkeningSquare(square);
+        }
+        else{
+            square.style.backgroundColor = 'black';
+        }
+    });
+});
+
+
+function randomSquareColor(){
+    const randomColorNumber = Math.floor(Math.random()*16777215).toString(16);
+    return ("#" + randomColorNumber);
+}
+
+function darkeningSquare(square){
+    let currentColor = window.getComputedStyle(square).backgroundColor;
+    let newShadeNumber = Number(currentColor.split(',')[1])-27;
+    if(newShadeNumber<0){
+        newShadeNumber=0;
+    }
+    const newColor = `rgb(${newShadeNumber},${newShadeNumber},${newShadeNumber})`;
+    return newColor;
+}

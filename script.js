@@ -1,18 +1,55 @@
 const container = document.querySelector('.container');
 createSquares()
-const squares = document.querySelectorAll('.square');
+// const squares = document.querySelectorAll('.square');
 
 const newSketchButton = document.getElementById('newSketch');
 newSketchButton.addEventListener('click',newSketchFunction);
 
 const refreshButton = document.getElementById('refresh');
+refreshButton.addEventListener('click', refreshFunction);
 const randomButton = document.getElementById('random');
 const grayscaleButton = document.getElementById('grayscale');
 
+window.addEventListener('load',()=>{
+    etchASketch()
+});
 
-function createSquares(numberOfSquares=16){
-    let squareSide = `${Math.floor(container.getBoundingClientRect()['width']
-    /numberOfSquares)}px`;
+
+function etchASketch(numberOfSquares=16){
+    container.innerHTML = '';
+    createSquares(numberOfSquares);
+    const squares = document.querySelectorAll('.square');
+
+    window.addEventListener('resize',()=>{
+
+        let newSquareSide = `${container.getBoundingClientRect()['width']/Math.sqrt(squares.length)}px`;
+        squares.forEach(square=>{
+            square.style.width = newSquareSide;
+            square.style.height = newSquareSide;
+        })
+    });
+
+    squares.forEach((square)=>{
+        square.addEventListener('mouseenter', ()=>{
+            if(container.classList.contains('randomColor')){
+                square.style.backgroundColor = randomSquareColor();
+            }
+            else if(container.classList.contains('darkenColor')){
+                square.style.backgroundColor = darkeningSquare(square);
+            }
+            else{
+                square.style.backgroundColor = 'black';
+            }
+        });
+    });
+    
+}
+
+
+function createSquares(numberOfSquares){
+    let squareSide = `${container.getBoundingClientRect()['width']
+    /numberOfSquares}px`;
+    
     for(let i=1; i<=(numberOfSquares**2); i++){
         const square = document.createElement('div');
         square.classList.add('square');
@@ -23,33 +60,6 @@ function createSquares(numberOfSquares=16){
     }
     
 }
-
-
-
-
-window.addEventListener('resize',()=>{
-
-    let newSquareSide = `${Math.floor(container.getBoundingClientRect()['width']/Math.sqrt(squares.length))}px`;
-    squares.forEach(square=>{
-        square.style.width = newSquareSide;
-        square.style.height = newSquareSide;
-    })
-});
-
-
-squares.forEach((square)=>{
-    square.addEventListener('mouseenter', ()=>{
-        if(container.classList.contains('randomColor')){
-            square.style.backgroundColor = randomSquareColor();
-        }
-        else if(container.classList.contains('darkenColor')){
-            square.style.backgroundColor = darkeningSquare(square);
-        }
-        else{
-            square.style.backgroundColor = 'black';
-        }
-    });
-});
 
 
 function randomSquareColor(){
@@ -74,6 +84,11 @@ function newSketchFunction(){
     }
     while(numberOfSquares>100);
     container.classList.add(numberOfSquares);
-    squares.forEach((square)=>{square.remove()});
-    createSquares(numberOfSquares)
+    etchASketch(numberOfSquares)
+}
+
+function refreshFunction(){
+    const squares = document.querySelectorAll('.square');
+    let currentSquareSide = Math.sqrt(squares.length);
+    etchASketch(currentSquareSide);
 }

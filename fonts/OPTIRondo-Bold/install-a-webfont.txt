@@ -4,11 +4,11 @@ Installing Webfonts
 2. Add this code to your website:
 
 @font-face {
-    font-family: 'OPTIRondo-Bold';
-    src:url('OPTIRondo-Bold.ttf.woff') format('woff'),
-        url('OPTIRondo-Bold.ttf.svg#OPTIRondo-Bold') format('svg'),
-        url('OPTIRondo-Bold.ttf.eot'),
-        url('OPTIRondo-Bold.ttf.eot?#iefix') format('embedded-opentype'); 
+    font-family: 'MoodySpaghetty-DemoLight';
+    src:url('MoodySpaghetty-DemoLight.ttf.woff') format('woff'),
+        url('MoodySpaghetty-DemoLight.ttf.svg#MoodySpaghetty-DemoLight') format('svg'),
+        url('MoodySpaghetty-DemoLight.ttf.eot'),
+        url('MoodySpaghetty-DemoLight.ttf.eot?#iefix') format('embedded-opentype'); 
     font-weight: normal;
     font-style: normal;
 }
@@ -16,7 +16,7 @@ Installing Webfonts
 Add the font name to your CSS styles. For example:
 
 h1 { 
-   font-family: 'OPTIRondo-Bold';
+   font-family: 'MoodySpaghetty-DemoLight';
 }  
 
 Troubleshooting Webfonts

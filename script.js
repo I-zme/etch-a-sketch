@@ -107,3 +107,31 @@ function refreshFunction(){
     etchASketch(currentSquareSide);
 }
 
+
+
+document.addEventListener('keydown',(e)=>{
+        switch(e.key){
+            case "ArrowDown":
+            case "s":
+            case "S":
+                console.log("down");
+                break
+            case "ArrowUp":
+            case "w":
+            case "W":
+                console.log("up");
+                break
+
+            case "ArrowLeft":
+            case "a":
+            case "A":
+                console.log("left");
+                break
+            case "ArrowRight":
+            case "d":
+            case "D":
+                console.log("right");
+                break
+        }
+});
+

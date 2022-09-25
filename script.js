@@ -1,14 +1,26 @@
 const container = document.querySelector('.container');
-createSquares()
-// const squares = document.querySelectorAll('.square');
 
 const newSketchButton = document.getElementById('newSketch');
 newSketchButton.addEventListener('click',newSketchFunction);
 
 const refreshButton = document.getElementById('refresh');
 refreshButton.addEventListener('click', refreshFunction);
+
 const randomButton = document.getElementById('random');
+randomButton.addEventListener('click', ()=>{
+    if(container.classList.length>1){
+        container.classList.remove(container.classList[1]);
+    }
+    container.classList.add('randomColor');
+});
+
 const grayscaleButton = document.getElementById('grayscale');
+grayscaleButton.addEventListener('click',()=>{
+    if(container.classList.length>1){
+        container.classList.remove(container.classList[1]);
+    }
+    container.classList.add('darkenColor');
+});
 
 window.addEventListener('load',()=>{
     etchASketch()
@@ -17,6 +29,9 @@ window.addEventListener('load',()=>{
 
 function etchASketch(numberOfSquares=16){
     container.innerHTML = '';
+    if(container.classList.length>1){
+        container.classList.remove(container.classList[1]);
+    }
     createSquares(numberOfSquares);
     const squares = document.querySelectorAll('.square');
 
@@ -83,7 +98,6 @@ function newSketchFunction(){
         numberOfSquares = prompt("Enter the number of squares per row,\n remember it can only go up to 100!");
     }
     while(numberOfSquares>100);
-    container.classList.add(numberOfSquares);
     etchASketch(numberOfSquares)
 }
 
@@ -92,3 +106,4 @@ function refreshFunction(){
     let currentSquareSide = Math.sqrt(squares.length);
     etchASketch(currentSquareSide);
 }
+

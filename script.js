@@ -1,6 +1,16 @@
 const container = document.querySelector('.container');
+createSquares()
+const squares = document.querySelectorAll('.square');
 
-function createSquares(numberOfSquares){
+const newSketchButton = document.getElementById('newSketch');
+newSketchButton.addEventListener('click',newSketchFunction);
+
+const refreshButton = document.getElementById('refresh');
+const randomButton = document.getElementById('random');
+const grayscaleButton = document.getElementById('grayscale');
+
+
+function createSquares(numberOfSquares=16){
     let squareSide = `${Math.floor(container.getBoundingClientRect()['width']
     /numberOfSquares)}px`;
     for(let i=1; i<=(numberOfSquares**2); i++){
@@ -11,10 +21,10 @@ function createSquares(numberOfSquares){
         square.style.height = squareSide;
         container.appendChild(square);
     }
+    
 }
 
-createSquares(16);
-const squares = document.querySelectorAll('.square');
+
 
 
 window.addEventListener('resize',()=>{
@@ -27,7 +37,6 @@ window.addEventListener('resize',()=>{
 });
 
 
-// for darkening
 squares.forEach((square)=>{
     square.addEventListener('mouseenter', ()=>{
         if(container.classList.contains('randomColor')){
@@ -56,4 +65,15 @@ function darkeningSquare(square){
     }
     const newColor = `rgb(${newShadeNumber},${newShadeNumber},${newShadeNumber})`;
     return newColor;
+}
+
+
+function newSketchFunction(){
+    do{
+        numberOfSquares = prompt("Enter the number of squares per row,\n remember it can only go up to 100!");
+    }
+    while(numberOfSquares>100);
+    container.classList.add(numberOfSquares);
+    squares.forEach((square)=>{square.remove()});
+    createSquares(numberOfSquares)
 }

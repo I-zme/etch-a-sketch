@@ -22,15 +22,39 @@ grayscaleButton.addEventListener('click',()=>{
     container.classList.add('darkenColor');
 });
 
-let currentSquareID=0;
+const leftKnob = document.querySelector('.knob.left');
+const rightKnob = document.querySelector('.knob.right');
+
+let currentSquareID = 0;
 let numberOfSquares;
+let horizontalDegree = 0;
+let verticalDegree = 0;
+let rotationDegree = 15;
+
+
+container.addEventListener('mousemove', (e)=>{
+    if(e.movementX>0){
+        horizontalDegree+=rotationDegree;
+    }
+    else if(e.movementX<0){
+        horizontalDegree-=rotationDegree;
+    }
+    
+    if(e.movementY>0){
+        verticalDegree+=rotationDegree;
+    }
+    else if(e.movementY<0){
+        verticalDegree-=rotationDegree;
+    }
+
+    leftKnob.style.transform = `rotate(${horizontalDegree}deg)`;
+    rightKnob.style.transform = `rotate(${verticalDegree}deg)`;
+});
 
 
 window.addEventListener('load',()=>{
     createSquares(numberOfSquares = 16);
 });
-
-
 
 
 container.addEventListener('DOMNodeInserted',()=>{
@@ -65,6 +89,7 @@ document.addEventListener('keydown',(e)=>{
             currentSquareID = currentSquareID+numberOfSquares;
             square = document.getElementById(currentSquareID);
             colorSquare(square);
+            verticalDegree-=rotationDegree;
             break
         case "ArrowUp":
         case "w":
@@ -73,6 +98,7 @@ document.addEventListener('keydown',(e)=>{
             currentSquareID = currentSquareID-numberOfSquares;
             square = document.getElementById(currentSquareID);
             colorSquare(square);
+            verticalDegree+=rotationDegree;
             break
 
         case "ArrowLeft":
@@ -82,6 +108,7 @@ document.addEventListener('keydown',(e)=>{
             currentSquareID = currentSquareID-1;
             square = document.getElementById(currentSquareID);
             colorSquare(square);
+            horizontalDegree-=rotationDegree;
             break
         case "ArrowRight":
         case "d":
@@ -90,9 +117,12 @@ document.addEventListener('keydown',(e)=>{
             currentSquareID = currentSquareID+1;
             square = document.getElementById(currentSquareID);
             colorSquare(square);
+            horizontalDegree+=rotationDegree;
             break
-    }
     
+    }
+    leftKnob.style.transform = `rotate(${horizontalDegree}deg)`;
+    rightKnob.style.transform = `rotate(${verticalDegree}deg)`;
 
 });
 

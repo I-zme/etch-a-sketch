@@ -23,19 +23,18 @@ grayscaleButton.addEventListener('click',()=>{
 });
 
 let currentSquareID=0;
-// let squares;
-// let game;
-// let round=0;
-// let newround=0;
+let numberOfSquares;
+
 
 window.addEventListener('load',()=>{
-    createSquares(16);
+    createSquares(numberOfSquares = 16);
 });
 
 
 
 
 container.addEventListener('DOMNodeInserted',()=>{
+    if(container.childElementCount===numberOfSquares**2){
     const squares = document.querySelectorAll('.square');
 
     numberOfSquares = Math.sqrt(squares.length);
@@ -53,6 +52,7 @@ container.addEventListener('DOMNodeInserted',()=>{
             currentSquareID = Number(square.id);
         });
     });
+}
 });
 
 document.addEventListener('keydown',(e)=>{
@@ -149,7 +149,6 @@ function newRound(numberOfSquares){
     if(container.classList.length>1){
         container.classList.remove(container.classList[1]);
     }
-    // round+=1;
     createSquares(numberOfSquares);
 }
 
@@ -159,14 +158,12 @@ function newSketchFunction(){
     }
     while(numberOfSquares>100);
     newRound(numberOfSquares);
-    // etchASketch(round);
 }
 
 function refreshFunction(){
     const squares = document.querySelectorAll('.square');
     let currentSquareSide = Math.sqrt(squares.length);
     newRound(currentSquareSide);
-    // etchASketch(round);
 }
 
 

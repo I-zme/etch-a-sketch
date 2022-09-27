@@ -24,78 +24,80 @@ grayscaleButton.addEventListener('click',()=>{
 
 let currentSquareID=0;
 // let squares;
-let game;
-let round=0;
+// let game;
+// let round=0;
+// let newround=0;
 
 window.addEventListener('load',()=>{
     createSquares(16);
-    game = etchASketch(round);
 });
 
 
-function etchASketch(round){
 
-        const squares = document.querySelectorAll('.square');
 
-        numberOfSquares = Math.sqrt(squares.length);
-        window.addEventListener('resize',()=>{
-            let newSquareSide = `${container.getBoundingClientRect()['width']/Math.sqrt(squares.length)}px`;
-            squares.forEach(square=>{
-                square.style.width = newSquareSide;
-                square.style.height = newSquareSide;
-            })
+container.addEventListener('DOMNodeInserted',()=>{
+    const squares = document.querySelectorAll('.square');
+
+    numberOfSquares = Math.sqrt(squares.length);
+    window.addEventListener('resize',()=>{
+        let newSquareSide = `${container.getBoundingClientRect()['width']/Math.sqrt(squares.length)}px`;
+        squares.forEach(square=>{
+            square.style.width = newSquareSide;
+            square.style.height = newSquareSide;
+        })
+    });
+
+    squares.forEach((square)=>{
+        square.addEventListener('mouseenter', ()=>{
+            colorSquare(square);
+            currentSquareID = Number(square.id);
         });
+    });
+});
 
-        squares.forEach((square)=>{
-            square.addEventListener('mouseenter', ()=>{
-                colorSquare(square);
-                currentSquareID = Number(square.id);
-            });
-        });
+document.addEventListener('keydown',(e)=>{
+    let square;
+    switch(e.key){
+        case "ArrowDown":
+        case "s":
+        case "S":
+            if(currentSquareID>=(numberOfSquares**2)-numberOfSquares)break
+            currentSquareID = currentSquareID+numberOfSquares;
+            square = document.getElementById(currentSquareID);
+            colorSquare(square);
+            break
+        case "ArrowUp":
+        case "w":
+        case "W":
+            if(currentSquareID<=numberOfSquares)break
+            currentSquareID = currentSquareID-numberOfSquares;
+            square = document.getElementById(currentSquareID);
+            colorSquare(square);
+            break
 
-        document.addEventListener('keydown',(e)=>{
-            let square;
-            switch(e.key){
-                case "ArrowDown":
-                case "s":
-                case "S":
-                    if(currentSquareID>=(numberOfSquares**2)-numberOfSquares)break
-                    currentSquareID = currentSquareID+numberOfSquares;
-                    square = document.getElementById(currentSquareID);
-                    colorSquare(square);
-                    break
-                case "ArrowUp":
-                case "w":
-                case "W":
-                    if(currentSquareID<=numberOfSquares)break
-                    currentSquareID = currentSquareID-numberOfSquares;
-                    square = document.getElementById(currentSquareID);
-                    colorSquare(square);
-                    break
-        
-                case "ArrowLeft":
-                case "a":
-                case "A":
-                    if(currentSquareID<=1)break
-                    currentSquareID = currentSquareID-1;
-                    square = document.getElementById(currentSquareID);
-                    colorSquare(square);
-                    break
-                case "ArrowRight":
-                case "d":
-                case "D":
-                    if(currentSquareID>=numberOfSquares**2)break
-                    currentSquareID = currentSquareID+1;
-                    square = document.getElementById(currentSquareID);
-                    colorSquare(square);
-                    break
-            }
-            
-        
-        });
+        case "ArrowLeft":
+        case "a":
+        case "A":
+            if(currentSquareID<=1)break
+            currentSquareID = currentSquareID-1;
+            square = document.getElementById(currentSquareID);
+            colorSquare(square);
+            break
+        case "ArrowRight":
+        case "d":
+        case "D":
+            if(currentSquareID>=numberOfSquares**2)break
+            currentSquareID = currentSquareID+1;
+            square = document.getElementById(currentSquareID);
+            colorSquare(square);
+            break
+    }
+    
+
+});
 
 
-}
+
 
 function colorSquare(square){
     if(container.classList.contains('randomColor')){
@@ -143,10 +145,11 @@ function darkeningSquare(square){
 
 function newRound(numberOfSquares){
     currentSquareID=0;
-    container.innerHTML = '';
+    container.replaceChildren();
     if(container.classList.length>1){
         container.classList.remove(container.classList[1]);
     }
+    // round+=1;
     createSquares(numberOfSquares);
 }
 
@@ -156,17 +159,14 @@ function newSketchFunction(){
     }
     while(numberOfSquares>100);
     newRound(numberOfSquares);
-    round+=1;
-    game = etchASketch(round);
-
+    // etchASketch(round);
 }
 
 function refreshFunction(){
     const squares = document.querySelectorAll('.square');
     let currentSquareSide = Math.sqrt(squares.length);
     newRound(currentSquareSide);
-    round+=1;
-    game = etchASketch(round);
+    // etchASketch(round);
 }
 
 

@@ -22,43 +22,93 @@ grayscaleButton.addEventListener('click',()=>{
     container.classList.add('darkenColor');
 });
 
+let currentSquareID=0;
+// let squares;
+let game;
+let round=0;
+
 window.addEventListener('load',()=>{
-    etchASketch()
+    createSquares(16);
+    game = etchASketch(round);
 });
 
 
-function etchASketch(numberOfSquares=16){
-    container.innerHTML = '';
-    if(container.classList.length>1){
-        container.classList.remove(container.classList[1]);
-    }
-    createSquares(numberOfSquares);
-    const squares = document.querySelectorAll('.square');
+function etchASketch(round){
 
-    window.addEventListener('resize',()=>{
+        const squares = document.querySelectorAll('.square');
 
-        let newSquareSide = `${container.getBoundingClientRect()['width']/Math.sqrt(squares.length)}px`;
-        squares.forEach(square=>{
-            square.style.width = newSquareSide;
-            square.style.height = newSquareSide;
-        })
-    });
-
-    squares.forEach((square)=>{
-        square.addEventListener('mouseenter', ()=>{
-            if(container.classList.contains('randomColor')){
-                square.style.backgroundColor = randomSquareColor();
-            }
-            else if(container.classList.contains('darkenColor')){
-                square.style.backgroundColor = darkeningSquare(square);
-            }
-            else{
-                square.style.backgroundColor = 'black';
-            }
+        numberOfSquares = Math.sqrt(squares.length);
+        window.addEventListener('resize',()=>{
+            let newSquareSide = `${container.getBoundingClientRect()['width']/Math.sqrt(squares.length)}px`;
+            squares.forEach(square=>{
+                square.style.width = newSquareSide;
+                square.style.height = newSquareSide;
+            })
         });
-    });
-    
+
+        squares.forEach((square)=>{
+            square.addEventListener('mouseenter', ()=>{
+                colorSquare(square);
+                currentSquareID = Number(square.id);
+            });
+        });
+
+        document.addEventListener('keydown',(e)=>{
+            let square;
+            switch(e.key){
+                case "ArrowDown":
+                case "s":
+                case "S":
+                    if(currentSquareID>=(numberOfSquares**2)-numberOfSquares)break
+                    currentSquareID = currentSquareID+numberOfSquares;
+                    square = document.getElementById(currentSquareID);
+                    colorSquare(square);
+                    break
+                case "ArrowUp":
+                case "w":
+                case "W":
+                    if(currentSquareID<=numberOfSquares)break
+                    currentSquareID = currentSquareID-numberOfSquares;
+                    square = document.getElementById(currentSquareID);
+                    colorSquare(square);
+                    break
+        
+                case "ArrowLeft":
+                case "a":
+                case "A":
+                    if(currentSquareID<=1)break
+                    currentSquareID = currentSquareID-1;
+                    square = document.getElementById(currentSquareID);
+                    colorSquare(square);
+                    break
+                case "ArrowRight":
+                case "d":
+                case "D":
+                    if(currentSquareID>=numberOfSquares**2)break
+                    currentSquareID = currentSquareID+1;
+                    square = document.getElementById(currentSquareID);
+                    colorSquare(square);
+                    break
+            }
+            
+        
+        });
+
+
 }
+
+function colorSquare(square){
+    if(container.classList.contains('randomColor')){
+        square.style.backgroundColor = randomSquareColor();
+    }
+    else if(container.classList.contains('darkenColor')){
+        square.style.backgroundColor = darkeningSquare(square);
+    }
+    else{
+        square.style.backgroundColor = '#000000';
+    }
+}
+
 
 
 function createSquares(numberOfSquares){
@@ -73,7 +123,6 @@ function createSquares(numberOfSquares){
         square.style.height = squareSide;
         container.appendChild(square);
     }
-    
 }
 
 
@@ -92,46 +141,32 @@ function darkeningSquare(square){
     return newColor;
 }
 
+function newRound(numberOfSquares){
+    currentSquareID=0;
+    container.innerHTML = '';
+    if(container.classList.length>1){
+        container.classList.remove(container.classList[1]);
+    }
+    createSquares(numberOfSquares);
+}
 
 function newSketchFunction(){
     do{
         numberOfSquares = prompt("Enter the number of squares per row,\n remember it can only go up to 100!");
     }
     while(numberOfSquares>100);
-    etchASketch(numberOfSquares)
+    newRound(numberOfSquares);
+    round+=1;
+    game = etchASketch(round);
+
 }
 
 function refreshFunction(){
     const squares = document.querySelectorAll('.square');
     let currentSquareSide = Math.sqrt(squares.length);
-    etchASketch(currentSquareSide);
+    newRound(currentSquareSide);
+    round+=1;
+    game = etchASketch(round);
 }
 
-
-
-document.addEventListener('keydown',(e)=>{
-        switch(e.key){
-            case "ArrowDown":
-            case "s":
-            case "S":
-                console.log("down");
-                break
-            case "ArrowUp":
-            case "w":
-            case "W":
-                console.log("up");
-                break
-
-            case "ArrowLeft":
-            case "a":
-            case "A":
-                console.log("left");
-                break
-            case "ArrowRight":
-            case "d":
-            case "D":
-                console.log("right");
-                break
-        }
-});
 

@@ -43,10 +43,12 @@ h1{
     color: #cc9900;
     position: absolute;
     top: 14%;
+
+    text-shadow: 1px 1px 2px #1a1a1a;
 }
 
 
-.container, .frame, h1{
+.container, .outer-frame, .inner-frame, h1{
     position: absolute;
     left: 50%;
     translate: -50% -50%;
@@ -64,15 +66,23 @@ h1{
     align-items: center;
 }
 
-.frame{
+.inner-frame{
+    margin: 0 auto;
+    height: 65vh;
+    aspect-ratio: 1/1;
+    top:53%;
+    /* outline: 1px solid black; */
+    box-shadow: 0 0 7px 1px black;
+}
+
+.outer-frame{
     height: 90vh;
     aspect-ratio: 0.95/1;
     top: 53%;
     background-color: #d40303;
     border-radius: 5%;
-
-    box-shadow: inset 0 0 20px 1px black;
-    outline: 1px solid black;
+    
+    box-shadow: inset 0 0 20px 1px black, 0 0 2px 1px #333333;
     z-index: -1;
 }
 
@@ -112,8 +122,27 @@ button{
 button:hover{
     cursor: pointer;
     transform: scale(1.2);
-    
 }
 
+
+.knob{
+    width: 7%;
+    height:13%;
+    border-radius: 50%;
+    box-shadow: 1px 1px 0 0  black, inset 0 0 3px 0px black;
+    background-image: radial-gradient( white
+ 0%,hsl(0, 0%, 92%) 30%, white 50%);
+    position: absolute;
+    bottom: 2.5%;
+}
+
+.left{
+
+    left: 25%;
+}
+
+.right{
+    right:25%;
+}
 
 

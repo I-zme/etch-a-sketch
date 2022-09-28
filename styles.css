@@ -151,7 +151,10 @@ button:hover{
     padding: 1rem;
     font-size: 1.3rem;
     letter-spacing: 0.1rem;
+
+    gap: 2%;
 }
+
 
 .smaller{
     font-size: 1.2rem;
@@ -210,7 +213,12 @@ button:hover{
     right: 2%;
 }
 
-
+.position{
+    position: absolute;
+    top: 28%;
+    left: 64%;
+    font-size: 1rem;
+}
 
 input{
     padding: 0.4rem 0.3rem;
@@ -299,4 +307,9 @@ input:focus{
     height: 30%;
     width: 4%;
     background:  linear-gradient(to left, hsl(0, 0%, 80%),hsl(0, 0%, 40%),hsl(0, 0%, 80%));
+}
+
+hr{
+    width: 60%;
+    border: 1px solid #fbf7f581;
 }

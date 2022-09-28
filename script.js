@@ -1,13 +1,54 @@
 const container = document.querySelector('.container');
 const instructions = document.querySelector('.instructions');
 
-
 const newSketchButton = document.getElementById('newSketch');
 const closeModalButton = document.querySelector('[data-close-button]');
 const overlay = document.getElementById('overlay');
 const modal = document.querySelector('.modal');
 const submitButtom = document.querySelector('.submit');
 const userInput = document.querySelector('.newSquareSide');
+
+const refreshButton = document.getElementById('refresh');
+refreshButton.addEventListener('click', ()=>{
+    displayInstruction(refreshText);
+    horizontalDegree = 0;
+    verticalDegree = 0;
+    refreshFunction();
+});
+
+const randomButton = document.getElementById('random');
+randomButton.addEventListener('click', ()=>{
+    grayscaleButton.classList.remove('clicked');
+    if(container.classList.length>1){
+        container.classList.remove(container.classList[1]);
+    }
+    container.classList.add('randomColor');
+    randomButton.classList.add('clicked');
+});
+
+const grayscaleButton = document.getElementById('grayscale');
+grayscaleButton.addEventListener('click',()=>{
+    randomButton.classList.remove('clicked');
+    if(container.classList.length>1){
+        container.classList.remove(container.classList[1]);
+    }
+    container.classList.add('darkenColor');
+    grayscaleButton.classList.add('clicked');
+});
+
+const leftKnob = document.querySelector('.knob.left');
+const rightKnob = document.querySelector('.knob.right');
+const hoveredButtons = document.querySelectorAll('.board button');
+
+let currentSquareID = 0;
+let numberOfSquares;
+let horizontalDegree = 0;
+let verticalDegree = 0;
+let rotationDegree = 15;
+const newSketchText = ["New Sketch:","Create a custom sized grid, e.g. '16' for a 16*16 grid."];
+const refreshText =["Refresh:", "Resets the sketch, start again with the same grid."];
+const randomColorText = ["Random:","Highlight the squares and see as they color at random!"];
+const grayscaleText = ["Grayscale:", "Highlight the squares, each pass makes the square darker."];
 
 newSketchButton.addEventListener('click',()=>{
     openModal(modal);
@@ -38,55 +79,55 @@ document.addEventListener('keypress', (e)=>{
 
 function openModal(modal){
     if(modal===null) return
+    newSketchButton.classList.add('clicked');
     modal.classList.add('active');
     overlay.classList.add('active');
+    instructions.classList.add('active');
     userInput.focus();
 }
 
 function closeModal(modal){
     if(modal===null) return
     userInput.value = '';
+    newSketchButton.classList.remove('clicked');
     modal.classList.remove('active');
     overlay.classList.remove('active');
+    instructions.classList.remove('active');
 }
 
+
 newSketchButton.addEventListener('mouseenter', ()=>{
-    const textDiv = document.querySelector('.text');
-    textDiv.textContent = 'Create a new sketch pad with your desired number of squares, e.g. 16, to make a 16/16 grid. Up to 100 squares per side in our current version!';
-
-    
-   
+    displayInstruction(newSketchText);
 });
 
-
-
-const refreshButton = document.getElementById('refresh');
-refreshButton.addEventListener('click', refreshFunction);
-
-const randomButton = document.getElementById('random');
-randomButton.addEventListener('click', ()=>{
-    if(container.classList.length>1){
-        container.classList.remove(container.classList[1]);
-    }
-    container.classList.add('randomColor');
+refreshButton.addEventListener('mouseenter', ()=>{
+    displayInstruction(refreshText);
 });
 
-const grayscaleButton = document.getElementById('grayscale');
-grayscaleButton.addEventListener('click',()=>{
-    if(container.classList.length>1){
-        container.classList.remove(container.classList[1]);
-    }
-    container.classList.add('darkenColor');
+randomButton.addEventListener('mouseenter', ()=>{
+    displayInstruction(randomColorText);
 });
 
-const leftKnob = document.querySelector('.knob.left');
-const rightKnob = document.querySelector('.knob.right');
+grayscaleButton.addEventListener('mouseenter', ()=>{
+    displayInstruction(grayscaleText);
+});
 
-let currentSquareID = 0;
-let numberOfSquares;
-let horizontalDegree = 0;
-let verticalDegree = 0;
-let rotationDegree = 15;
+hoveredButtons.forEach((button)=>{    
+    button.addEventListener('mouseleave',()=>{
+        if(button.classList.contains('clicked'))return
+        else{
+            displayInstruction('');
+        }
+    });
+});
+
+function displayInstruction(array){
+    const temporaryTitle = document.querySelector('.temporaryTitle');
+    const temporaryBody = document.querySelector('.temporaryBody');
+    temporaryTitle.textContent = array[0];
+    temporaryBody.textContent = array[1];
+}
+
 
 
 container.addEventListener('mousemove', (e)=>{

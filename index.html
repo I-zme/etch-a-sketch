@@ -28,14 +28,18 @@
     </div>
 
     <div class="instructions">
-        <div class="constant"><span class="smaller">Welome to:</span> <span class="block">Etch-A-Sketch!</span><br>
+        <div class="welcome"><span class="smaller">Welome to:</span> <span class="block">Etch-A-Sketch!</span></div>
+        <div class="constant">
             Use your mouse to highlight boxes,<br> you can also use your arrow keys or WASD.
         </div>
-        <div class="text"></div>
+        <hr>
+        <div class="temporaryTitle"></div>
+        <div class="temporaryBody"></div>
     </div>
 
     <div class="modal" id="modal">
             <div class="title">How many squares?</div>
+            <div class="position">(max 100)</div>
             <button data-close-button class="close-button">&times;</button>
             <input type="number" min="1" max="100" class="newSquareSide"  placeholder="e.g. 16">
             <input type="submit" class="submit" value="Submit">

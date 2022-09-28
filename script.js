@@ -1,7 +1,19 @@
 const container = document.querySelector('.container');
+const instructions = document.querySelector('.instructions');
 
 const newSketchButton = document.getElementById('newSketch');
 newSketchButton.addEventListener('click',newSketchFunction);
+newSketchButton.addEventListener('mouseenter', ()=>{
+    const textDiv = document.querySelector('.text');
+    textDiv.textContent = 'Create a new sketch pad with your desired number of squares, e.g. 16, to make a 16/16 grid. Up to 100 squares per side in our current version!';
+
+    const inputNumber = document.querySelector('.newSquareSide');
+    inputNumber.style.display = 'block';
+    const submitButton = document.querySelector('.submit');
+    submitButton.style.display = 'block';
+   
+});
+
 
 const refreshButton = document.getElementById('refresh');
 refreshButton.addEventListener('click', refreshFunction);

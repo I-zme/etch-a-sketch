@@ -1,18 +1,63 @@
 const container = document.querySelector('.container');
 const instructions = document.querySelector('.instructions');
 
+
 const newSketchButton = document.getElementById('newSketch');
-newSketchButton.addEventListener('click',newSketchFunction);
+const closeModalButton = document.querySelector('[data-close-button]');
+const overlay = document.getElementById('overlay');
+const modal = document.querySelector('.modal');
+const submitButtom = document.querySelector('.submit');
+const userInput = document.querySelector('.newSquareSide');
+
+newSketchButton.addEventListener('click',()=>{
+    openModal(modal);
+});
+
+closeModalButton.addEventListener('click',()=>{
+    closeModal(modal);
+});
+
+overlay.addEventListener('click',()=>{
+    const modal = document.querySelector('.modal.active');
+    closeModal(modal);
+});
+
+submitButtom.addEventListener('click', ()=>{
+    numberOfSquares = userInput.value;
+    newRound(numberOfSquares);
+    closeModal(modal);
+});
+
+document.addEventListener('keypress', (e)=>{
+    if(modal.classList.contains('active')&&(e.key==='Enter')){
+        numberOfSquares = userInput.value;
+        newRound(numberOfSquares);
+        closeModal(modal);
+    }
+});
+
+function openModal(modal){
+    if(modal===null) return
+    modal.classList.add('active');
+    overlay.classList.add('active');
+    userInput.focus();
+}
+
+function closeModal(modal){
+    if(modal===null) return
+    userInput.value = '';
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+}
+
 newSketchButton.addEventListener('mouseenter', ()=>{
     const textDiv = document.querySelector('.text');
     textDiv.textContent = 'Create a new sketch pad with your desired number of squares, e.g. 16, to make a 16/16 grid. Up to 100 squares per side in our current version!';
 
-    const inputNumber = document.querySelector('.newSquareSide');
-    inputNumber.style.display = 'block';
-    const submitButton = document.querySelector('.submit');
-    submitButton.style.display = 'block';
+    
    
 });
+
 
 
 const refreshButton = document.getElementById('refresh');
@@ -194,13 +239,6 @@ function newRound(numberOfSquares){
     createSquares(numberOfSquares);
 }
 
-function newSketchFunction(){
-    do{
-        numberOfSquares = prompt("Enter the number of squares per row,\n remember it can only go up to 100!");
-    }
-    while(numberOfSquares>100);
-    newRound(numberOfSquares);
-}
 
 function refreshFunction(){
     const squares = document.querySelectorAll('.square');

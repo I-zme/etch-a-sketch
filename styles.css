@@ -18,6 +18,16 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Naomi';
+    src:url('fonts/Naomi/Naomi.ttf.woff') format('woff'),
+        url('fonts/Naomi/Naomi.ttf.svg#Naomi') format('svg'),
+        url('fonts/Naomi/Naomi.ttf.eot'),
+        url('fonts/Naomi/Naomi.ttf.eot?#iefix') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 html, body{
     width: 100%;
@@ -85,7 +95,7 @@ h1{
 }
 
 .square{
-    background-color: white;
+    background-color: rgb(255, 255, 217);
     outline: 1px solid lightslategray;
 }
 
@@ -130,27 +140,25 @@ button:hover{
 
 .instructions{
     width: 23.5%;
-    height: 60%;
+    height: 70%;
     right: 0.5%;
-}
-
-.text{
-    font-family: 'MoodySpaghetty-DemoLight';
-    font-size: 1.1rem;
-    font-weight: 900;
-
     color: #FBF7F5;
+    font-family: 'Naomi';
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    padding: 1rem;
+    font-size: 1.3rem;
+    letter-spacing: 0.1rem;
 }
 
-.text{
-    width: 90%;
-    height: 60%;
-    position: absolute;
-    top: 7%;
-    left: 7%;
-    letter-spacing: 0.1rem;
-    line-height: 1.2rem;
-    line-break: anywhere;
+.smaller{
+    font-size: 1.2rem;
+}
+.block{
+    display: block;
+    text-align: center;
 }
 
 .modal{
@@ -256,6 +264,10 @@ input:focus{
     pointer-events: all;
 }
 
+.instructions.active{
+    z-index: 10;
+    box-shadow: 0 0 6px 1px #808080;
+}
 
 .knob{
     width: 7%;

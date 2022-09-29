@@ -1,14 +1,32 @@
 const container = document.querySelector('.container');
 const instructions = document.querySelector('.instructions');
+const leftKnob = document.querySelector('.knob.left');
+const rightKnob = document.querySelector('.knob.right');
 
-const newSketchButton = document.getElementById('newSketch');
-const closeModalButton = document.querySelector('[data-close-button]');
 const overlay = document.getElementById('overlay');
 const modal = document.querySelector('.modal');
 const submitButtom = document.querySelector('.submit');
 const userInput = document.querySelector('.newSquareSide');
+const closeModalButton = document.querySelector('[data-close-button]');
 
+const newSketchButton = document.getElementById('newSketch');
 const refreshButton = document.getElementById('refresh');
+const randomButton = document.getElementById('random');
+const grayscaleButton = document.getElementById('grayscale');
+const hoveredButtons = document.querySelectorAll('.board button');
+
+let currentSquareID = 0;
+let numberOfSquares;
+let horizontalDegree = 0;
+let verticalDegree = 0;
+let rotationDegree = 15;
+
+const newSketchText = ["New Sketch:","Create a custom sized grid, e.g. '16' for a 16*16 grid."];
+const refreshText =["Refresh:", "Resets the sketch, start again with the same grid."];
+const randomColorText = ["Random:","Highlight the squares and see as they color at random!"];
+const grayscaleText = ["Grayscale:", "Highlight the squares, each pass makes the square darker."];
+
+//  button event listeners
 refreshButton.addEventListener('click', ()=>{
     displayInstruction(refreshText);
     horizontalDegree = 0;
@@ -16,7 +34,6 @@ refreshButton.addEventListener('click', ()=>{
     refreshFunction();
 });
 
-const randomButton = document.getElementById('random');
 randomButton.addEventListener('click', ()=>{
     grayscaleButton.classList.remove('clicked');
     if(container.classList.length>1){
@@ -26,7 +43,6 @@ randomButton.addEventListener('click', ()=>{
     randomButton.classList.add('clicked');
 });
 
-const grayscaleButton = document.getElementById('grayscale');
 grayscaleButton.addEventListener('click',()=>{
     randomButton.classList.remove('clicked');
     if(container.classList.length>1){
@@ -36,20 +52,7 @@ grayscaleButton.addEventListener('click',()=>{
     grayscaleButton.classList.add('clicked');
 });
 
-const leftKnob = document.querySelector('.knob.left');
-const rightKnob = document.querySelector('.knob.right');
-const hoveredButtons = document.querySelectorAll('.board button');
-
-let currentSquareID = 0;
-let numberOfSquares;
-let horizontalDegree = 0;
-let verticalDegree = 0;
-let rotationDegree = 15;
-const newSketchText = ["New Sketch:","Create a custom sized grid, e.g. '16' for a 16*16 grid."];
-const refreshText =["Refresh:", "Resets the sketch, start again with the same grid."];
-const randomColorText = ["Random:","Highlight the squares and see as they color at random!"];
-const grayscaleText = ["Grayscale:", "Highlight the squares, each pass makes the square darker."];
-
+// modal and new sketch
 newSketchButton.addEventListener('click',()=>{
     openModal(modal);
 });
@@ -64,18 +67,21 @@ overlay.addEventListener('click',()=>{
 });
 
 submitButtom.addEventListener('click', ()=>{
-    numberOfSquares = userInput.value;
-    newRound(numberOfSquares);
-    closeModal(modal);
+    submitUserInput();
 });
 
 document.addEventListener('keypress', (e)=>{
     if(modal.classList.contains('active')&&(e.key==='Enter')){
-        numberOfSquares = userInput.value;
-        newRound(numberOfSquares);
-        closeModal(modal);
+       submitUserInput();
     }
 });
+
+function submitUserInput(){
+    if(userInput.value>100 || userInput.value<1)return
+    numberOfSquares = userInput.value;
+    newRound(numberOfSquares);
+    closeModal(modal);
+}
 
 function openModal(modal){
     if(modal===null) return
@@ -95,7 +101,7 @@ function closeModal(modal){
     instructions.classList.remove('active');
 }
 
-
+// display instruction upon hovering
 newSketchButton.addEventListener('mouseenter', ()=>{
     displayInstruction(newSketchText);
 });
@@ -129,7 +135,7 @@ function displayInstruction(array){
 }
 
 
-
+// knob movement
 container.addEventListener('mousemove', (e)=>{
     if(e.movementX>0){
         horizontalDegree+=rotationDegree;
@@ -149,7 +155,7 @@ container.addEventListener('mousemove', (e)=>{
     rightKnob.style.transform = `rotate(${verticalDegree}deg)`;
 });
 
-
+// grid and game
 window.addEventListener('load',()=>{
     createSquares(numberOfSquares = 16);
 });
@@ -225,8 +231,7 @@ document.addEventListener('keydown',(e)=>{
 });
 
 
-
-
+// grid and game -- main functons (except newsketch)
 function colorSquare(square){
     if(container.classList.contains('randomColor')){
         square.style.backgroundColor = randomSquareColor();
@@ -238,23 +243,6 @@ function colorSquare(square){
         square.style.backgroundColor = '#000000';
     }
 }
-
-
-
-function createSquares(numberOfSquares){
-    let squareSide = `${container.getBoundingClientRect()['width']
-    /numberOfSquares}px`;
-    
-    for(let i=1; i<=(numberOfSquares**2); i++){
-        const square = document.createElement('div');
-        square.classList.add('square');
-        square.setAttribute('id',`${i}`);
-        square.style.width = squareSide;
-        square.style.height = squareSide;
-        container.appendChild(square);
-    }
-}
-
 
 function randomSquareColor(){
     const randomColorNumber = Math.floor(Math.random()*16777215).toString(16);
@@ -271,6 +259,20 @@ function darkeningSquare(square){
     return newColor;
 }
 
+function createSquares(numberOfSquares){
+    let squareSide = `${container.getBoundingClientRect()['width']
+    /numberOfSquares}px`;
+    
+    for(let i=1; i<=(numberOfSquares**2); i++){
+        const square = document.createElement('div');
+        square.classList.add('square');
+        square.setAttribute('id',`${i}`);
+        square.style.width = squareSide;
+        square.style.height = squareSide;
+        container.appendChild(square);
+    }
+}
+
 function newRound(numberOfSquares){
     currentSquareID=0;
     container.replaceChildren();
@@ -279,7 +281,6 @@ function newRound(numberOfSquares){
     }
     createSquares(numberOfSquares);
 }
-
 
 function refreshFunction(){
     const squares = document.querySelectorAll('.square');

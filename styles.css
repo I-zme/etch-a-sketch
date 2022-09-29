@@ -45,7 +45,7 @@ body{
 
 
 
-
+/* main game console */
 h1{
     margin-top: 0;
     font-family: 'OPTIRondo-Bold';
@@ -100,6 +100,7 @@ h1{
 }
 
 
+/* left and right boards -- blackboard styling */
 .board, .instructions{
     background: url('img/board.jpg') no-repeat;
     background-size: 100% 100%;
@@ -114,7 +115,7 @@ h1{
     align-items: center;
 }
 
-
+/* left board */
 .board{
     height: 85.5%;
     width: 23.5%;
@@ -137,7 +138,7 @@ button:hover{
     transform: scale(1.2);
 }
 
-
+/* right board */
 .instructions{
     width: 23.5%;
     height: 70%;
@@ -155,7 +156,6 @@ button:hover{
     gap: 2%;
 }
 
-
 .smaller{
     font-size: 1.2rem;
 }
@@ -164,6 +164,13 @@ button:hover{
     text-align: center;
 }
 
+hr{
+    width: 60%;
+    border: 1px solid #fbf7f581;
+    margin: 2%;
+}
+
+/* modal */
 .modal{
     position: fixed;
     top: 40%;
@@ -272,11 +279,13 @@ input:focus{
     pointer-events: all;
 }
 
+/* instructions - when modal is active */
 .instructions.active{
     z-index: 10;
     box-shadow: 0 0 6px 1px #808080;
 }
 
+/* knobs */
 .knob{
     width: 7%;
     aspect-ratio: 1/1;
@@ -307,9 +316,4 @@ input:focus{
     height: 30%;
     width: 4%;
     background:  linear-gradient(to left, hsl(0, 0%, 80%),hsl(0, 0%, 40%),hsl(0, 0%, 80%));
-}
-
-hr{
-    width: 60%;
-    border: 1px solid #fbf7f581;
 }
